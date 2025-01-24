@@ -5,7 +5,7 @@ import { View, Text, Image,TouchableOpacity } from 'react-native';
 import globalstyles from '../styles/globalstyles'; 
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={globalstyles.container}>
       <Image
@@ -18,7 +18,7 @@ const HomeScreen = () => {
       {/* Button */}
       <TouchableOpacity
         style={globalstyles.button}
-        onPress={() => navigation.navigate('SignUp')} // Use the navigation prop to go to the SignUp screen
+        onPress={() => navigation.navigate('Signup')} // Use the navigation prop to go to the SignUp screen
       >
         <Text style={globalstyles.buttonText}>Continue to Sign Up</Text>
       </TouchableOpacity>
