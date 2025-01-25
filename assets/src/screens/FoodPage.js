@@ -9,19 +9,22 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient"; // Import LinearGradient
 
 const FoodPage = () => {
   const [search, setSearch] = useState("");
   const [foodData, setFoodData] = useState([]);
   const navigation = useNavigation();
-
+  const handleProfilePress = () => {
+    navigation.navigate('Profile'); // This will navigate to the Profile screen
+  };
   // Fetch food data from the backend
   useEffect(() => {
     const fetchFoodData = async () => {
       try {
         const response = await fetch("http://192.168.18.252:5000/api/food"); // Replace with your backend API URL
         const data = await response.json();
-        console.log(data);  // Log to check the fetched data
+        console.log(data); // Log to check the fetched data
         setFoodData(data);
       } catch (error) {
         console.error("Error fetching food data:", error);
@@ -51,7 +54,10 @@ const FoodPage = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#000000", "#1a1a1a", "#333333"]} // Black gradient effect
+      style={styles.container}
+    >
       {/* Search Bar */}
       <View style={styles.searchBar}>
         <TextInput
@@ -65,7 +71,7 @@ const FoodPage = () => {
       {/* Food List */}
       <FlatList
         data={filteredFood}
-        keyExtractor={(item) => item.id ? item.id.toString() : item.name} // Handle undefined 'id'
+        keyExtractor={(item) => (item.id ? item.id.toString() : item.name)} // Handle undefined 'id'
         renderItem={renderFoodCard}
         contentContainerStyle={styles.foodList}
       />
@@ -73,55 +79,60 @@ const FoodPage = () => {
       {/* Bottom Navigation Bar */}
       <View style={styles.bottomBar}>
         <TouchableOpacity>
-          <Text>Home</Text>
+          <Text style={styles.bottomBarText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text>Orders</Text>
+          <Text style={styles.bottomBarText}>Orders</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text>Cart</Text>
+          <Text style={styles.bottomBarText}>Cart</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Profile</Text>
-        </TouchableOpacity>
+        {/* <TouchableOpacity>
+          <Text style={styles.bottomBarText}>Profile</Text>
+        </TouchableOpacity> */}
+         <TouchableOpacity style={styles.button} onPress={handleProfilePress}>
+      <Text style={styles.bottomBarText}>Profile</Text>
+    </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+  },
   searchBar: {
-    padding: 10,
-    backgroundColor: "#f8f8f8",
+    padding: 30,
+    backgroundColor: "rgba(0, 0, 0, 0.8)", // Transparent black for better blending
   },
   searchInput: {
     backgroundColor: "#fff",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "black",
     padding: 10,
   },
   foodList: { padding: 10 },
   foodCard: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    marginBottom: 20,
+    backgroundColor: "rgb(206, 198, 198)",
+    borderRadius: 20,
+    marginBottom: 30,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "black",
     flexDirection: "row",
   },
   foodImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
   },
   foodDetails: {
     flex: 1,
-    padding: 10,
+    padding: 40,
   },
   foodName: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
   foodPrice: {
@@ -131,10 +142,13 @@ const styles = StyleSheet.create({
   bottomBar: {
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 10,
-    borderTopWidth: 1,
+    padding: 40,
+    borderTopWidth: 3,
     borderColor: "#ddd",
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "rgba(0, 0, 0, 0.9)", // Dark transparent background
+  },
+  bottomBarText: {
+    color: "#fff", // White text for bottom navigation
   },
 });
 

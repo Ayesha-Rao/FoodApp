@@ -30,7 +30,9 @@ const Login = ({ navigation }) => {
 
     return (
         <ImageBackground
-            source={require('../../../assets/images/pexels-valeriya-1199957.jpg')} // Background image
+        source={{
+            uri: "https://i.pinimg.com/736x/bd/f9/ba/bdf9baebfce79f6c83dc8e259a3484f3.jpg", // Replace with user's profile image
+          }}
             style={globalstyles.backgroundImage} // Style for background image
         >
             <View style={globalstyles.container1}>
